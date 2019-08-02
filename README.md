@@ -16,5 +16,5 @@ Create PRs off of master and wait for a Senior Dev to review it before merging i
 1. Create a new branch (with a descriptive name) off of master. Eg `git checkout -b <name of branch>`
 2. Commit, push and create a pull request for your branch as soon as you can so other people know what you're working on. Eg `git commit -am <descriptive comment of your work> && git push`
 3. Commit and push your changes to your branch.
-5. Rebase/merge from master into your branch 
-5. Once you're ready, request a review from one of the senior devs (James, Claire, and Shruti).
+5. Merge from master into your branch 
+5. Once you're ready, request a review from one of the senior devs (James, Claire, and JC).
