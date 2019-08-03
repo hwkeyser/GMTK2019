@@ -8,15 +8,16 @@ public class Controls : MonoBehaviour
 
     public float startSpeed;        // Start speed for scenario
     public float maxSpeed;          // Our maximum speed allowed.
-    public float decAltSpeed;       // Decrease Altitude.
-    public float incAltSpeed;       // Increase Altitude.
     public float currentSpeed;      // Current Speed;
-    public float thrust;            // How much force to apply (Forward).
-    public float airBrakeForce;     // Breaks.
-    public float bank;
+    public float maxThrust;         // How much force to apply (Forward).
+    public float currentThrust;     // Breaks.
+    public float Yaw;
+    public float Roll;
+    public float minThrust;
     public float liftMultplier;
     public float lift;
-    public float gravityOverride;
+    public float thrustChangeAmount;
+
 
     private Rigidbody rb;           // Our Rigidbody.
 
@@ -24,47 +25,78 @@ public class Controls : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();        // Gets the players Rigidbody.
         rb.velocity = new Vector3(0, 0, startSpeed);
+
     }
 
     void FixedUpdate()
     {
-        currentSpeed = rb.velocity.z;
+        //refresh current speed
+        currentSpeed = Mathf.Abs(rb.velocity.z) + Mathf.Abs(rb.velocity.x);
+
+        //Thrust Forward
+        rb.AddRelativeForce(Vector3.forward * currentThrust);
+        rb.transform.Rotate(0, Yaw / 10, 0, Space.Self);
+
+        changeThrust();
+        turningInputs();
+
+    }
+
+    private void turningInputs()
+    {
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
+        }
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
+            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
+            rb.transform.Rotate(0, 0, Roll, Space.Self);
+        }
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
+            rb.transform.Rotate(0, 0, Roll, Space.Self);
+        }
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
+            rb.transform.Rotate(0, 0, -Roll, Space.Self);
+        }
+    }
+
+
+
+    private void changeThrust()
+    {
         if (currentSpeed < maxSpeed)
         {
-            if (Input.GetKey(KeyCode.W))
+            if (currentThrust < maxThrust)
             {
-                //Apply Accelleration
-                rb.AddRelativeForce(Vector3.forward * thrust);
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                {
+                    //Apply Accelleration
+                    currentThrust += thrustChangeAmount;
 
+                }
             }
+
         }
 
         // can add later if needs to just start off the back remove the get key down for W
-        // rb.AddForce(new Vector3(transform.forward.x, 0, transform.forward.z) * thrust); 
-
-        if (Input.GetKey(KeyCode.S))
+        if (currentSpeed > 0)
         {
-            //Apply airBrakeForce
-            rb.AddRelativeForce(Vector3.back * airBrakeForce);
+            if (currentThrust > minThrust)
+            {
+                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                {
+                    //Apply Accelleration
+                    currentThrust -= thrustChangeAmount;
+
+                }
+            }
         }
 
     }
-
-    
-    void Update()
-    {
-        //NOT REALISTIC ROTATIONS but not trying to be REALISTIC at this stage.
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(-Vector3.up * 15 * Time.deltaTime);
-
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up * 15 * Time.deltaTime);
-
-        }
-    }
-
 }
