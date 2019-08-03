@@ -52,6 +52,3 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
-
-# End of line control
-*.* eol=lf
