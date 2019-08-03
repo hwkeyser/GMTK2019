@@ -18,6 +18,6 @@ public class PlaneController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.AddForce(new Vector3(transform.forward.x, 0, transform.forward.z) * 10); 
+        rb.AddForce(new Vector3(transform.forward.x, 0, transform.forward.z) * thrust); 
     }
 }
