@@ -31,7 +31,7 @@ public class liftScript : MonoBehaviour
     {
         forwardSpeed = GetComponentInParent<Controls>().currentSpeed;
         maxSpeed = GetComponentInParent<Controls>().maxSpeed;
-        liftRatio = forwardSpeed / maxSpeed ;
+        liftRatio = Mathf.Clamp(forwardSpeed / maxSpeed,.3f,1f);
         lift = liftRatio * liftMultiplier;
     }
 }
