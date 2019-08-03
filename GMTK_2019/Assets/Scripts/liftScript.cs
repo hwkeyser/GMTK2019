@@ -9,8 +9,8 @@ public class liftScript : MonoBehaviour
     private float verticalSpeed;
     private float verticalSpeedOffset;
     private float maxSpeed;
-    private float liftRatio;
-    private float gravity = 9.81f;
+    public float liftRatio;
+    private float gravity = -9.81f;
     private float lift = 9.81f;
     private Rigidbody rb;
 
@@ -23,15 +23,15 @@ public class liftScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //calculateLift();
-        rb.AddForce(0, gravity - lift,0, ForceMode.Acceleration);
+        calculateLift();
+        rb.AddForce(0, gravity + lift,0, ForceMode.Acceleration);
     }
 
     void calculateLift()
     {
         forwardSpeed = GetComponentInParent<Controls>().currentSpeed;
         maxSpeed = GetComponentInParent<Controls>().maxSpeed;
-        liftRatio = maxSpeed / forwardSpeed;
+        liftRatio = forwardSpeed / maxSpeed ;
         lift = liftRatio * liftMultiplier;
     }
 }
