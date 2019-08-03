@@ -28,26 +28,24 @@ public class Controls : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (currentSpeed >= maxSpeed)
+        currentSpeed = rb.velocity.z;
+        if (currentSpeed < maxSpeed)
         {
-            //If our speed maxes out to our maxSpeed we restrict our plane from going any faster.
-            thrust = currentSpeed;
+            if (Input.GetKey(KeyCode.W))
+            {
+                //Apply Accelleration
+                rb.AddRelativeForce(Vector3.forward * thrust);
+
+            }
         }
 
         // can add later if needs to just start off the back remove the get key down for W
         // rb.AddForce(new Vector3(transform.forward.x, 0, transform.forward.z) * thrust); 
-        if (Input.GetKey(KeyCode.W))
-        {
-            //Apply Accelleration
-            rb.AddRelativeForce(Vector3.forward * thrust);
 
-        }
         if (Input.GetKey(KeyCode.S))
         {
             //Apply airBrakeForce
             rb.AddRelativeForce(Vector3.back * airBrakeForce);
-            if (currentSpeed <= decAltSpeed);
         }
 
     }

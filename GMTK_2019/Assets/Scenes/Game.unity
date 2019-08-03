@@ -349,6 +349,7 @@ GameObject:
   - component: {fileID: 960211065}
   - component: {fileID: 960211066}
   - component: {fileID: 960211067}
+  - component: {fileID: 960211068}
   m_Layer: 0
   m_Name: _Player
   m_TagString: Untagged
@@ -428,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f48f490ba4cb544bcdd0a2a53d7e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSpeed: 60
   maxSpeed: 100
   decAltSpeed: 15
   incAltSpeed: 15
@@ -435,6 +437,22 @@ MonoBehaviour:
   thrust: 10000
   airBrakeForce: 10
   bank: 0
+  liftMultplier: 0
+  lift: 0
+  gravityOverride: 0
+--- !u!114 &960211068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960211062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6e5165df678cf45a8fc900948c348c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  liftMultiplier: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
