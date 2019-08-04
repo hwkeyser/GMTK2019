@@ -62,8 +62,9 @@ public class Controls : MonoBehaviour
     public void startCountdown()
     {
         gameCountdown = true;
+        readySetGoPanel.SetActive(true);
         //spawn player repaired, new position, new rotation (y)
-        
+
     }
 
     void FixedUpdate()
