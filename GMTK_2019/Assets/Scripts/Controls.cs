@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controls : MonoBehaviour
 {
@@ -20,24 +21,68 @@ public class Controls : MonoBehaviour
     public bool GameStart;
     public bool GamePaused;
     public bool GameOver;
+    public bool gameCountdown;
+    private float nextActionTime = 0.0f;
+    public float countdownPeriod = 1f;
+    public float gameStartTime = 3f;
+    public GameObject startpanel;
+    public GameObject readySetGoPanel;
+    public Text timerText;
+    public GameObject pausepanel;
+    public GameObject resultspanel;
+    public GameObject mainCamera;
+    public float timeCheck;
 
 
     private Rigidbody rb;           // Our Rigidbody.
 
     void Start()
     {
+        Time.timeScale = 1;
         GameStart = false;
+        gameCountdown = false;
         GamePaused = false;
         GameOver = false;
         rb = GetComponent<Rigidbody>();        // Gets the players Rigidbody.
-        
-        Time.timeScale = 0;
+        startpanel.SetActive(true);
     }
 
+    public void restart()
+    {
+        Time.timeScale = 1;
+        GameStart = false;
+        gameCountdown = false;
+        GamePaused = false;
+        GameOver = false;
+        startpanel.SetActive(true);
+        resultspanel.SetActive(false);
+        pausepanel.SetActive(false);
+    }
 
+    public void startCountdown()
+    {
+        gameCountdown = true;
+        //spawn player repaired, new position, new rotation (y)
+        
+    }
 
     void FixedUpdate()
     {
+        if (gameCountdown)
+        {
+            if (gameStartTime <= 0)
+            {
+                GameStart = true;
+                gameCountdown = false;
+                readySetGoPanel.SetActive(false);
+            }
+            gameStartTime = gameStartTime - Time.unscaledDeltaTime;
+            timerText.text = gameStartTime.ToString("0");
+            timeCheck = Time.unscaledDeltaTime;
+            
+        }
+
+        //calculate gameplay forces
         if (GameStart && !GamePaused && !GameOver)
         {
             //refresh current speed
@@ -50,11 +95,30 @@ public class Controls : MonoBehaviour
 
             changeThrust();
             turningInputs();
+            if (Input.GetKey(KeyCode.Escape)){
+                PauseGame();
+            }
         }
-        if (GamePaused || GameOver)
+
+        //escape from pause
+        if (!GamePaused)
         {
-            Time.timeScale = 0;
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                ResumeGame();
+            }
         }
+
+        if ( rb.transform.position.y <= 7 && currentSpeed < 4)
+        {
+
+            endGame();
+
+        }
+    }
+
+    public void ReadySetGo()
+    {
 
     }
 
@@ -65,6 +129,20 @@ public class Controls : MonoBehaviour
         Time.timeScale = 1;
         rb.velocity = new Vector3(0, 0, startSpeed);
         RollAmount = rb.transform.rotation.x;
+    }
+
+    public void PauseGame()
+    {
+        GamePaused = true;
+        Time.timeScale = 0;
+        pausepanel.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        GamePaused = false;
+        Time.timeScale = 1;
+        pausepanel.SetActive(false);
     }
 
     private void turningInputs()
@@ -120,5 +198,14 @@ public class Controls : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void endGame()
+    {
+        GameOver = true;
+        resultspanel.SetActive(true);
+        //stop object
+        //populate scoring metrics
+        // game UI set active false
     }
 }

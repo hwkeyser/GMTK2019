@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class cameraShake : MonoBehaviour
 {
-    public float waitTime = .01f;
+    public float waitTime = .1f;
     private GameObject Camera;
     public float rotateSpeed = 10f;
+    public float countdownTime = 4f;
     
 
     // Start is called before the first frame update
-    void Start()
+    public void ShakeCamera()
     {
         Camera = GameObject.FindWithTag("MainCamera");
         StartCoroutine("translate");
         StartCoroutine("rotate");
     }
+
 
     IEnumerator translate()
     {
@@ -50,14 +52,9 @@ public class cameraShake : MonoBehaviour
 
     IEnumerator rotate()
     {
-        Camera.transform.eulerAngles = Vector3(0, 0, 0);
+        Camera.transform.eulerAngles = new Vector3(0, 0, 0);
         yield return new WaitForSecondsRealtime(waitTime);
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
