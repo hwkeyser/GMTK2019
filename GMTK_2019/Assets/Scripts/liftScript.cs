@@ -10,7 +10,7 @@ public class liftScript : MonoBehaviour
     private float verticalSpeedOffset;
     private float maxSpeed;
     public float liftRatio;
-    private float gravity = -9.81f;
+    public float gravity = -9.81f;
     private float lift = 9.81f;
     private Rigidbody rb;
 
