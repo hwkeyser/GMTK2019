@@ -9,6 +9,7 @@ public class DetachEngine : MonoBehaviour
     {
         this.transform.parent = null;
         this.GetComponent<Rigidbody>().AddRelativeForce(0, -20, 300, ForceMode.Acceleration);
+        Destroy(transform.gameObject);
     }
 
 

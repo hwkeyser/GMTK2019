@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:GMTK_2019/Assets/Audio/15 Wind,Synthetic Synthetic Wind Blowing.R.mp3.meta
 guid: 3f1205f4ebe16104d8aec89a0f4277f9
+=======
+guid: 2e8b4e2abcbf8ba48a99d2ab61ff44e5
+>>>>>>> ca15e5aa14dfc37d06773fc718ac55d8b5d238b3:GMTK_2019/Assets/Audio/15 Wind,Synthetic Synthetic Wind Blowing.R.mp3.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
