@@ -12,7 +12,7 @@ public class Controls : MonoBehaviour
     public float maxThrust;         // How much force to apply (Forward).
     public float currentThrust;     // Breaks.
     public float Yaw;
-    public float Roll;
+    public float RollAmount;
     public float minThrust;
     public float liftMultplier;
     public float lift;
@@ -25,7 +25,7 @@ public class Controls : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();        // Gets the players Rigidbody.
         rb.velocity = new Vector3(0, 0, startSpeed);
-
+        RollAmount = rb.transform.rotation.x;
     }
 
     void FixedUpdate()
@@ -47,23 +47,32 @@ public class Controls : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
+            if (RollAmount < 20)
+            {
+                RollAmount = RollAmount + Input.GetAxis("Horizontal");
+                //rb.transform.rotation.y = RollAmount;
+            }
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
-            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
-            rb.transform.Rotate(0, 0, Roll, Space.Self);
+            if (RollAmount > 0)
+            {
+                RollAmount = RollAmount + Input.GetAxis("Horizontal");
+                rb.transform.Rotate(RollAmount, 0, 0, Space.Self);
+            }
+
         }
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
-            rb.transform.Rotate(0, 0, Roll, Space.Self);
-        }
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Roll = Mathf.Clamp(Roll + Input.GetAxis("Horizontal"), 0, 20);
-            rb.transform.Rotate(0, 0, -Roll, Space.Self);
-        }
+        //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    Roll = Mathf.Clamp(Roll - Input.GetAxis("Horizontal"), 0, 20);
+        //    rb.transform.Rotate(0, 0, Roll, Space.Self);
+        //}
+        //if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    Roll = Mathf.Clamp(Roll - Input.GetAxis("Horizontal"), 0, 20);
+        //    rb.transform.Rotate(0, 0, -Roll, Space.Self);
+        //}
     }
 
 
