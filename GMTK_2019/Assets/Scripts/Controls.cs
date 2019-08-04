@@ -162,15 +162,15 @@ public class Controls : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -5f, 0);
             }
             else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
-                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -2f, 0);
             }
             else
             {
-                Yaw = -.3f;
+                Yaw = -.6f;
             }
         }
     }
