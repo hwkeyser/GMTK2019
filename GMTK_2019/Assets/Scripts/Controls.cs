@@ -17,89 +17,108 @@ public class Controls : MonoBehaviour
     public float liftMultplier;
     public float lift;
     public float thrustChangeAmount;
+    public bool GameStart;
+    public bool GamePaused;
+    public bool GameOver;
 
 
     private Rigidbody rb;           // Our Rigidbody.
 
     void Start()
     {
+        GameStart = false;
+        GamePaused = false;
+        GameOver = false;
         rb = GetComponent<Rigidbody>();        // Gets the players Rigidbody.
+        
+        Time.timeScale = 0;
+    }
+
+
+
+    void FixedUpdate()
+    {
+        if (GameStart && !GamePaused && !GameOver)
+        {
+            //refresh current speed
+            currentSpeed = Mathf.Abs(rb.velocity.z) + Mathf.Abs(rb.velocity.x);
+
+            //Thrust Forward
+            rb.AddRelativeForce(Vector3.forward * currentThrust);
+
+            rb.transform.Rotate(0, Yaw / 10, 0, Space.Self);
+
+            changeThrust();
+            turningInputs();
+        }
+        if (GamePaused || GameOver)
+        {
+            Time.timeScale = 0;
+        }
+
+    }
+
+    public void StartGame()
+    {
+        GameStart = true;
+        GameOver = false;
+        Time.timeScale = 1;
         rb.velocity = new Vector3(0, 0, startSpeed);
         RollAmount = rb.transform.rotation.x;
     }
 
-    void FixedUpdate()
-    {
-        //refresh current speed
-        currentSpeed = Mathf.Abs(rb.velocity.z) + Mathf.Abs(rb.velocity.x);
-
-        //Thrust Forward
-        rb.AddRelativeForce(Vector3.forward * currentThrust);
-        
-        rb.transform.Rotate(0, Yaw / 10, 0, Space.Self);
-
-        changeThrust();
-        turningInputs();
-
-    }
-
     private void turningInputs()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        if (GameStart && !GamePaused && !GameOver)
         {
-            Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
+            }
+            else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
+            }
+            else
+            {
+                Yaw = -.3f;
+            }
         }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
-        }
-        else
-        {
-            Yaw = -.3f;
-        }
-        //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        //{
-        //    Roll = Mathf.Clamp(Roll - Input.GetAxis("Horizontal"), 0, 20);
-        //    rb.transform.Rotate(0, 0, Roll, Space.Self);
-        //}
-        //if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    Roll = Mathf.Clamp(Roll - Input.GetAxis("Horizontal"), 0, 20);
-        //    rb.transform.Rotate(0, 0, -Roll, Space.Self);
-        //}
     }
 
 
 
     private void changeThrust()
     {
-        if (currentSpeed < maxSpeed)
+        if (GameStart && !GamePaused && !GameOver)
         {
-            if (currentThrust < maxThrust)
+            if (currentSpeed < maxSpeed)
             {
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                if (currentThrust < maxThrust)
                 {
-                    //Apply Accelleration
-                    currentThrust += thrustChangeAmount;
+                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                    {
+                        //Apply Accelleration
+                        currentThrust += thrustChangeAmount;
 
+                    }
                 }
+
             }
 
-        }
-
-        // can add later if needs to just start off the back remove the get key down for W
-        if (currentSpeed > 0)
-        {
-            if (currentThrust > minThrust)
+            // can add later if needs to just start off the back remove the get key down for W
+            if (currentSpeed > 0)
             {
-                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                if (currentThrust > minThrust)
                 {
-                    //Apply Accelleration
-                    currentThrust -= thrustChangeAmount;
+                    if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                    {
+                        //Apply Accelleration
+                        currentThrust -= thrustChangeAmount;
 
+                    }
                 }
             }
         }
-
     }
 }
