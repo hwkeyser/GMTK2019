@@ -35,6 +35,7 @@ public class Controls : MonoBehaviour
 
         //Thrust Forward
         rb.AddRelativeForce(Vector3.forward * currentThrust);
+        
         rb.transform.Rotate(0, Yaw / 10, 0, Space.Self);
 
         changeThrust();
@@ -48,9 +49,13 @@ public class Controls : MonoBehaviour
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
         }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
+        }
+        else
+        {
+            Yaw = -.3f;
         }
         //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         //{
