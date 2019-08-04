@@ -16,7 +16,7 @@ public class MouseAimCamera : MonoBehaviour
     void LateUpdate()
     {
         float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
-        float vertical = Input.GetAxis("Mouse Y") * rotateSpeed;
+
         target.transform.RotateAround(target.transform.position, Vector3.up, horizontal);
         //target.transform.RotateAround(target.transform.position, Vector3.left, vertical);
     }
