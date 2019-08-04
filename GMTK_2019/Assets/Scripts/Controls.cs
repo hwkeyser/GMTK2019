@@ -31,7 +31,9 @@ public class Controls : MonoBehaviour
     public GameObject pausepanel;
     public GameObject resultspanel;
     public GameObject mainCamera;
+    public GameObject world;
     public float timeCheck;
+
 
 
     private Rigidbody rb;           // Our Rigidbody.
@@ -64,7 +66,7 @@ public class Controls : MonoBehaviour
         gameCountdown = true;
         readySetGoPanel.SetActive(true);
         //spawn player repaired, new position, new rotation (y)
-
+        world.GetComponent<SpawnWorld>().SpawnGame();
     }
 
     void FixedUpdate()
@@ -99,6 +101,13 @@ public class Controls : MonoBehaviour
             if (Input.GetKey(KeyCode.Escape)){
                 PauseGame();
             }
+
+            //test spawn mechanic
+            if (Input.GetKey(KeyCode.Space))
+            {
+                world.GetComponent<SpawnWorld>().SpawnGame();
+            }
+
         }
 
         //escape from pause
@@ -110,7 +119,8 @@ public class Controls : MonoBehaviour
             }
         }
 
-        if ( rb.transform.position.y <= 7 && currentSpeed < 4)
+        //if plane is slow on ground end game
+        if ( rb.transform.position.y <= 7 && currentSpeed < 4 && GameStart)
         {
 
             endGame();
@@ -205,6 +215,7 @@ public class Controls : MonoBehaviour
     {
         GameOver = true;
         resultspanel.SetActive(true);
+        GameStart = false;
         //stop object
         //populate scoring metrics
         // game UI set active false
