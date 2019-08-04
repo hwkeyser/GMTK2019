@@ -9,8 +9,11 @@ using UnityEngine;
 
 public class AudioEngine : MonoBehaviour
 {
-    int startingPitch = 2;
-    int timeToDecrease = 5;
+    private GameObject player;
+    private Controls controls;
+
+    int startingPitch = 1;
+    //int timeToDecrease = 5;
     AudioSource audioSource;
 
     void Start()
@@ -18,16 +21,22 @@ public class AudioEngine : MonoBehaviour
         //Fetch the AudioSource from the GameObject
         audioSource = GetComponent<AudioSource>();
 
+        player = GameObject.Find("_Player");
+        controls = player.GetComponent<Controls>();
+
         //Initialize the pitch
         audioSource.pitch = startingPitch;
     }
 
     void Update()
     {
+
+        float currentSpeed = controls.currentSpeed;
+
         //While the pitch is over 0, decrease it as time passes.
-        if (audioSource.pitch > 0)
+        if (audioSource.pitch > 0.5 || audioSource.pitch < 2)
         {
-            audioSource.pitch -= Time.deltaTime * startingPitch / timeToDecrease;
+            audioSource.pitch = currentSpeed/200;
         }
     }
 }
