@@ -8,7 +8,7 @@ public class DetachEngine : MonoBehaviour
     void Update()
     {
         this.transform.parent = null;
-        this.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, this.GetComponentInParent<Controls>().startSpeed);
+        this.GetComponent<Rigidbody>().AddRelativeForce(0, -20, 300, ForceMode.Acceleration);
     }
 
 
