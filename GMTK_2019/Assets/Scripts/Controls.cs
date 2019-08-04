@@ -156,21 +156,26 @@ public class Controls : MonoBehaviour
         pausepanel.SetActive(false);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     private void turningInputs()
     {
         if (GameStart && !GamePaused && !GameOver)
         {
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -5f, 0);
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -5f, -.3f);
             }
             else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
-                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -2f, 0);
+                Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -2f, -.3f);
             }
             else
             {
-                Yaw = -.6f;
+                Yaw = -1f;
             }
         }
     }
@@ -214,6 +219,7 @@ public class Controls : MonoBehaviour
     public void endGame()
     {
         GameOver = true;
+        resultspanel.GetComponentInChildren<calcScore>().GetScore();
         resultspanel.SetActive(true);
         GameStart = false;
         //stop object
