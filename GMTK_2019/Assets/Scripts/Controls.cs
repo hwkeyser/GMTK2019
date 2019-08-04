@@ -47,21 +47,10 @@ public class Controls : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1.5f, 0);
-            if (RollAmount < 20)
-            {
-                RollAmount = RollAmount + Input.GetAxis("Horizontal");
-                //rb.transform.rotation.y = RollAmount;
-            }
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             Yaw = Mathf.Clamp(Yaw + Input.GetAxis("Horizontal"), -1f, 0);
-            if (RollAmount > 0)
-            {
-                RollAmount = RollAmount + Input.GetAxis("Horizontal");
-                rb.transform.Rotate(RollAmount, 0, 0, Space.Self);
-            }
-
         }
         //if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         //{
